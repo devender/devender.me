@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit', timeZone: 'UTC' });
+const postPath = (p: (typeof posts)[number]) => {
+  const d = p.data.date;
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(d.getUTCDate()).padStart(2, '0');
+  return `/${d.getUTCFullYear()}/${mm}/${dd}/${p.data.slug}/`;
+};
+
+let lastYear = 0;
+---
+<Base title="Devender's Musings — engineering, writing since 2003">
+  <div class="hero">
+    <p class="kicker">Devender's Musings</p>
+    <h1>Engineer. Builder of systems that move real&nbsp;money.</h1>
+    <p class="lede">
+      Investment platforms, tokenized securities, and production AI in regulated finance.
+      Co-author of ERC-1450 · maker of <a href="https://mcpwright.com">mcpwright</a>.
+      Writing here since 2003 — from Hibernate and Clojure to today's agents.
+    </p>
+  </div>
+
+  <section>
+    <ul class="post-list">
+      {posts.map((p) => {
+        const y = p.data.date.getUTCFullYear();
+        const head = y !== lastYear;
+        lastYear = y;
+        return (
+          <>
+            {head && <p class="year-head">{y}</p>}
+            <li>
+              <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+              <a href={postPath(p)}>{p.data.title}</a>
+            </li>
+          </>
+        );
+      })}
+    </ul>
+  </section>
+</Base>

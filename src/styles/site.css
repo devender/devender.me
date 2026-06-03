@@ -1,0 +1,119 @@
+/* devender.me — the mcpwright design language (Fraunces + JetBrains Mono, dark) */
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #9198a1;
+  --accent: #58a6ff;
+  --accent-soft: #1f6feb;
+  --green: #3fb950;
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.display {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "wght" 600, "SOFT" 0, "WONK" 1;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1100px 460px at 50% -180px, rgba(88, 166, 255, 0.12), transparent 70%),
+    var(--bg);
+  background-repeat: no-repeat;
+  color: var(--text);
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+header.site { border-bottom: 1px solid var(--border); padding: 20px 0; }
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { font-family: var(--serif); font-size: 23px; color: var(--text); text-decoration: none;
+  font-variation-settings: "opsz" 40, "wght" 600, "SOFT" 0, "WONK" 1; }
+.brand .dot { color: var(--accent); }
+nav a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 14px; }
+nav a:hover { color: var(--text); }
+
+.hero { padding: 64px 0 36px; }
+.hero h1 {
+  font-size: clamp(40px, 7vw, 72px); line-height: 1.02; margin: 0 0 20px; letter-spacing: -0.005em;
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "wght" 600, "SOFT" 0, "WONK" 1;
+}
+.hero .lede { font-size: 20px; color: var(--muted); max-width: 640px; margin: 0; }
+.kicker { font-family: var(--mono); color: var(--accent); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 14px; }
+
+section { padding: 24px 0; }
+h2 {
+  font-size: 32px; margin: 0 0 16px;
+  font-family: var(--serif); font-variation-settings: "opsz" 80, "wght" 600, "SOFT" 0, "WONK" 1;
+}
+h3 {
+  font-size: 21px; margin: 24px 0 8px;
+  font-family: var(--serif); font-variation-settings: "opsz" 36, "wght" 600, "SOFT" 0, "WONK" 1;
+}
+p { color: var(--text); }
+.muted { color: var(--muted); }
+a { color: var(--accent); }
+
+/* ---- Post list (homepage / archive) ---- */
+.post-list { list-style: none; padding: 0; margin: 0; }
+.post-list li {
+  display: flex; align-items: baseline; gap: 18px;
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+}
+.post-list time { font-family: var(--mono); font-size: 13px; color: var(--muted); white-space: nowrap; min-width: 7.5em; }
+.post-list a {
+  color: var(--text); text-decoration: none; font-size: 18px;
+  font-variation-settings: "opsz" 36, "wght" 500, "SOFT" 0, "WONK" 1;
+}
+.post-list a:hover { color: var(--accent); }
+.year-head {
+  font-family: var(--mono); color: var(--accent); font-size: 13px; letter-spacing: 0.05em;
+  margin: 40px 0 4px;
+}
+
+/* ---- Article ---- */
+article.post .post-title {
+  font-size: clamp(34px, 6vw, 56px); line-height: 1.05; margin: 0 0 10px;
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "wght" 600, "SOFT" 0, "WONK" 1;
+}
+article.post .post-meta { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+article.post .content { font-size: 17.5px; }
+article.post .content img { max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
+article.post .content h1, article.post .content h2 { font-size: 28px; }
+article.post .content blockquote {
+  margin: 16px 0; padding: 2px 18px; color: var(--muted);
+  border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 8px 8px 0;
+}
+article.post .content table { width: 100%; border-collapse: collapse; font-size: 14px; }
+article.post .content td, article.post .content th { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+
+/* ---- Code (Shiki emits pre.astro-code with inline colors) ---- */
+pre {
+  background: var(--panel) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+code { font-family: var(--mono); font-size: 0.92em; }
+:not(pre) > code { background: rgba(110,118,129,0.18); padding: 2px 6px; border-radius: 5px; }
+
+.pagination { display: flex; justify-content: space-between; padding: 36px 0; font-family: var(--mono); font-size: 14px; }
+
+footer.site { border-top: 1px solid var(--border); margin-top: 48px; padding: 28px 0 60px; color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); }
+footer.site a:hover { color: var(--text); }
