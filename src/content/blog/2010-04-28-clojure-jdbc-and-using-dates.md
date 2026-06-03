@@ -10,7 +10,7 @@ I did not find many examples of using dates with Clojure/JDBC, after some initia
 
 Source File
 
-```
+```clojure
 
 (ns clojure-bi.simple
   (use clojure.contrib.sql))
@@ -43,7 +43,7 @@ Source File
 
 Test file
 
-```
+```clojure
 
 (ns clojure-bi.simple-test
   (:use [clojure-bi.simple] :reload-all)

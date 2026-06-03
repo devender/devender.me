@@ -19,7 +19,7 @@ The [attachment\_fu](http://github.com/technoweenie/attachment_fu) plugin writte
 9. Make a model ‘./script/generate model file\_meta\_data size:integer content\_type:string filename:string’ .
 10. Edit the newly created model and add the following lines to it.( ‘has\_attachment’ and ‘validated\_as\_attachment’ are provided by the plugin, there are many other options that you can specify to read more on the options refer to this [page](http://github.com/technoweenie/attachment_fu)).
 
-```
+```ruby
 
 has_attachment   :storage =&gt; :s3,
 :cloudfront => true
@@ -29,7 +29,7 @@ validates_as_attachment
 11. Generate controller ‘./script/generate controller Upload index show new edit create update destroy’.
 12. Edit the Upload controller and add the following
 
-```
+```ruby
 
 def index
   @fileMetaDatas = FileMetaData.all
@@ -50,7 +50,7 @@ end
 
 13. Edit the new.erb.html file under the upload controller folder and add the following
 
-```
+```erb
 
 <form_for(:fileMetaData, :url => upload_file_path, :html => { :multipart => true }) do |f| >
 
@@ -62,7 +62,7 @@ Upload A File:
 
 14. Edit the index.html.erb file under the Uploads controller and add the following
 
-```
+```erb
 
 File List
 <% for fileMetaData in @fileMetaDatas -%>

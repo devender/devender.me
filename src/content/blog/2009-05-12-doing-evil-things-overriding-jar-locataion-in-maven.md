@@ -8,7 +8,7 @@ categories: ["General"]
 
 Every once in a while you are stuck in a situation where you just cannot add a jar into the repository but you still want to use maven, there is a work around. In the old maven 1.x you had to do this using the project properties now it is even easier just add a dependency  like below and add the jar to the ${basedir}/lib folder. The system tag was created for a totally different purpose, but here we are using it for our overriding jar locations.
 
-```
+```xml
 <dependency>
  <groupId>pircbot</groupId>
  <artifactId>pircbot</artifactId>

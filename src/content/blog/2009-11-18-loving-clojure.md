@@ -22,7 +22,7 @@ Ok getting back to Clojure, don’t get your panties in a bunch when you see all
 
 Here’s an example
 
-```
+```clojure
 (defn fac
 "Returns the factorial of n, which must be a positive integer."
 [n]
@@ -34,7 +34,7 @@ Here’s an example
 
 Is same as
 
-```
+```clojure
 (defn fac [n] (if (= n 1) 1 (* n (fac (- n 1)))))
 ```
 
@@ -42,7 +42,7 @@ But the first one is a lot more easier on the eyes (even brain?) than the second
 
 Clojure seems to be very easy to pick up, things seem very intuitive, like the other day I was wondering, how to return a default value from a map if the key is not found and there is was right there in the api.
 
-```
+```clojure
 (map key default-value)
 ```
 

@@ -48,7 +48,7 @@ So here we go..
 
 If everything has gone will you should see this output.
 
-```
+```clojure
 Clojure 1.1.0
 user=> (load-file "src/com/dev/try_redis/core.clj")
 #'com.dev.try-redis.core/test-redis

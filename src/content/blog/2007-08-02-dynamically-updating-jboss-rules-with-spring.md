@@ -16,7 +16,7 @@ I am not going to go in dept about using Drools with Spring you can read my othe
 
 #### A Rules POJO
 
-```
+```java
 
 RulesService
 {
@@ -31,7 +31,7 @@ RulesService
 
 Make sure the RulesService is a singleton which it should be by default when you are using Spring, your spring config should look something like this.
 
-```
+```xml
 
 	<bean id="rulesService" class="edu.apollogrp.qtask.RulesService" init-method="init">
 		<!-- where to the files are stored -->
@@ -45,7 +45,7 @@ This will make sure that as soon as your context starts, the RulesService POJO w
 
 All services that need to execute rules should be injected with the RulesService POJO and use the RulesService to get the instance of the RulesBase and then create a working memory using it
 
-```
+```java
 
 INeedRules{
 	RulesService rulesService;

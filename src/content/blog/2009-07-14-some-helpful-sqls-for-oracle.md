@@ -8,7 +8,7 @@ categories: ["General"]
 
 1. For finding out the current running sql for a particular user
 
-```
+```sql
 SELECT a.sql_text
  FROM v$session s,
  v$sqlarea a
@@ -22,13 +22,13 @@ AND s.sql_address   =a.address;
 
 3. To see all the seesion for a user
 
-```
+```sql
    select * from v$session s where s.username = 'PROQ';
 ```
 
 4. To see locked objects and the session
 
-```
+```sql
 select     oracle_username || ' (' || s.osuser || ')' username
    ,  s.sid || ',' || s.serial# sess_id
    ,  owner || '.' || object_name object
@@ -58,12 +58,12 @@ select     oracle_username || ' (' || s.osuser || ')' username
 
 And then kill the session with this
 
-```
+```sql
 alter system kill session '94,2168';
 ```
 
 5. Tables by user
 
-```
+```sql
 select owner,count(*) from all_all_tables group by owner;
 ```

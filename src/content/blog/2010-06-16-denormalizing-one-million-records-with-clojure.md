@@ -32,7 +32,7 @@ Take a minute to think how would you do this in java and then look at the below 
 –  
 –
 
-```
+```clojure
 
 (ns com.dev.file-reader
  (:use [clojure.contrib.duck-streams])

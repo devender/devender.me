@@ -27,7 +27,7 @@ Steps to encrypt ([EnvelopeEncryptionService.java](https://github.com/devender/e
 4. Base64 encode the encrypted message.
 5. Save both the encrypted message and the encrypted data key.
 
-```
+```java
 private GenerateDataKeyResult generateDataKey() {
         GenerateDataKeyRequest generateDataKeyRequest = new GenerateDataKeyRequest();
         generateDataKeyRequest.setKeyId(clientMasterKeyId);
@@ -59,7 +59,7 @@ Steps to decrypt ([EnvelopeEncryptionService.java](https://github.com/devender/
 3. Base64 decode the message.
 4. Use the plain text key obtained in step 2 to decrypt the message from step 3.
 
-```
+```java
 private String decrypt(final SecretKeySpec secretKeySpec, final String cipherText) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         byte[] decodeBase64src = Base64.getDecoder().decode(cipherText);
         Cipher cipher = Cipher.getInstance(AES);

@@ -8,7 +8,7 @@ categories: ["General"]
 
 Had a bit of struggle to get this to work, logging the solution here so that it will be helpful to someone else. I am using Scala 2.9.1 and [mybatis-scala-core](http://mybatis.org/scala/) 1.0.0.
 
-```
+```scala
 val findOpenGroups = new SelectListBy[GroupIds,Group] {
 def xsql = SELECT h.xxxxxx AS id,
 h.xxxxxx AS launchedDate
@@ -23,7 +23,7 @@ AND h.id IN
 
 GroupIds is a simple class, just make sure you are using the java.util.List.
 
-```
+```scala
 
 class GroupIds(val ids:java.util.List[Int]){}
 ```

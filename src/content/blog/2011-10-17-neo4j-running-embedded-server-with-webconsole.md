@@ -12,7 +12,7 @@ If you are running Neo4j in embedded mode, you can still get the web console, da
 
 Add them to your pom.xml
 
-```
+```xml
 
 <dependency>
   <groupId>org.neo4j.app</groupId>
@@ -29,7 +29,7 @@ Add them to your pom.xml
 
 Notice the “**classifier**” in the above code. Below is the code for how you would start it.
 
-```
+```java
 
 EmbeddedGraphDatabase db = new EmbeddedGraphDatabase(<path>);
 bootstrapper = new WrappingNeoServerBootstrapper(db);
@@ -39,7 +39,7 @@ bootstrapper.start();
 UPDATE  
 Once you get the web console you will be able to run Cypher queries but not Gremlin, to be able to run Gremlin queries too include it into your classpath.
 
-```
+```xml
 
 <dependency>
         <groupId>com.tinkerpop</groupId>
