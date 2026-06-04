@@ -39,9 +39,10 @@ near-identical "browse Reg CF / browse Reg D / browse Reg A" tools. In census-mc
 `compare_zips(zips, metric)`, not a per-metric tool family.
 
 The test I use: *if two tools would always be reached for together, or they differ only by the value
-of one argument, they're one tool.* Collapse them and let a parameter carry the difference. The
-model is much better at filling in a parameter than at picking the right needle from a haystack of
-tool names.
+of one argument, they're one tool.* Collapse them and let a parameter carry the difference. I used to
+justify this by claiming a model fills in a parameter better than it picks the right needle from a
+haystack of tool names — but when I measured that, it barely held. The real payoff is context cost and
+multi-step robustness, not single-shot selection. More on that, with numbers, below.
 
 ## 2. Return lean, model-shaped data — not raw upstream JSON
 
@@ -164,14 +165,39 @@ and every one of those 1,100 tokens is signal. (Reproduce it yourself: `curl` th
 endpoint with a `User-Agent`, count the bytes; the tool's default `limit` is 20.) Multiply that
 across a multi-step research session and the difference is the model staying coherent versus drowning.
 
-The claims I *can't* yet hand you a number for are the behavioral ones — that few orthogonal tools
-improve tool-selection accuracy, and that honest caveats in descriptions reduce confident-wrong
-answers. Those need a real eval: a fixed task set, the suite wired to a model, run many times with and
-without the change — the same questions against a 30-tool variant vs. the 11-tool one, or with the
-ZCTA and top-coding caveats stripped out of the descriptions — scoring tool choice and answer
-correctness. I'm building that harness, and I'll publish what it finds, including the results that
-*don't* flatter the principle. Until then, treat sections 1, 3 and 5 as well-motivated arguments, not
-measured facts. An essay that hands you a design rule it hasn't measured owes you that distinction.
+The behavioral claims are harder, and here the honesty cuts against me. I built an eval for the first
+one — *few orthogonal tools beat many specific ones* — and it mostly didn't hold the way I'd implied.
+
+The setup: take edgar's real 11-tool surface as the control, and a "fragmented" variant that
+un-collapses the same capability into 26 narrow tools (one per Reg form, one per financial metric, and
+so on — the design a less disciplined author might ship). Put a fixed task set to a model, force a
+single tool call, and score whether it picked the right tool. Five trials per task:
+
+| Model | Control (11 tools) | Fragmented (26 tools) |
+|---|--:|--:|
+| Claude Sonnet 4.6 | 100% | 94% |
+| Claude Haiku 4.5 | 93% | 92% |
+
+Few tools came out ahead both times — but barely, and the confidence intervals overlap. At this sample
+size there's no real difference. I'd predicted the *weaker* model would struggle more with the
+sprawling surface; instead Haiku's gap was smaller than Sonnet's. The blunt read: a capable model
+picks correctly from 26 well-named tools about as well as from 11. **Tool-selection accuracy is not
+where few-tools earns its keep.**
+
+That doesn't sink the principle — it relocates its justification. The real costs of a fragmented
+surface are the ones a single-shot selection test can't see: 26 tool schemas burning context on every
+turn, errors compounding across a multi-step task, and *tempting wrong detours*. The eval did surface
+one of those: on "list Reddit's S-1 filings," the fragmented surface repeatedly lured the model into
+looking the company up by name first — a plausible side-quest the parameterized `list_filings` tool
+let it skip. So I'll restate section 1 more carefully than I first wrote it: few orthogonal tools
+matter for context cost and multi-step robustness, not because a model can't choose from a long menu.
+(The harness and raw results are open — [github.com/mcpwright/mcp-tool-surface-eval](https://github.com/mcpwright/mcp-tool-surface-eval)
+— so you can reproduce this or break it.)
+
+The descriptions claim (section 3) — that honest caveats cut confident-wrong answers — I haven't
+measured yet; it needs tool execution and answer grading, not just selection. Until then, treat it as
+a well-motivated argument. And take the section above as the standing promise of this whole essay: I'll
+measure the rules I hand you, and say so plainly when the numbers don't cooperate.
 
 ## The tensions I'm trading off
 
