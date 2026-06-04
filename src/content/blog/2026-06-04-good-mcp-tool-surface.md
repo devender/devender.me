@@ -11,14 +11,16 @@ That one fact should change most of the decisions you'd make building it. A mode
 docs site. It can't poke at endpoints in a REPL, can't grep your source, can't hold a Slack thread
 with you about what a field means. On each turn it sees a flat list of tool names, their
 descriptions, the parameter schemas, and whatever JSON you chose to hand back — all of it competing
-for room in a finite, expensive context window. That's the whole interface. There is nothing else.
+for the model's attention inside a finite context window. That's essentially the whole interface.
 
 I build agentic AI in regulated finance, and I've spent the last couple of weeks open-sourcing the
 public-data layer I kept wishing existed — a small suite of MCP servers called
 [mcpwright](https://mcpwright.com): SEC EDGAR, US Census, and IRS income statistics, all read-only,
 all typed. Writing three servers to the same standard forced me to get explicit about what I was
 actually optimizing for. It turns out that "design for a model, not a programmer" is not a slogan —
-it changes concrete choices. Here are the ones that mattered.
+it changes concrete choices. Here are the ones that mattered. A caveat up front: these are all
+read-only data-lookup servers — the gentlest case there is. I come back at the end to what that
+leaves out, and to which of these claims I can actually measure.
 
 ## 1. Few orthogonal tools beat many specific ones
 
@@ -47,10 +49,11 @@ The fastest way to ruin an otherwise good tool is to return whatever the upstrea
 
 A raw EDGAR submissions blob is huge. A raw Census API response is a matrix of opaque variable codes.
 The IRS gives you roughly 150 columns per ZIP code. Almost none of that is what the model asked for,
-and here's the thing people miss: **the model's context window is the scarcest resource in the whole
-system.** Every token of upstream cruft you pass through is a token the user pays for, a token that
-pushes something useful out of the window, and a token the model can get distracted by and reason
-about incorrectly.
+and here's the thing that matters more than the token bill: **a model's attention is the scarce
+resource, not just its context window.** Context windows are large now and prompt caching makes raw
+tokens cheap — but every field of upstream cruft you pass through is one more thing the model can
+fixate on, misread, or quietly reason about wrong. Lean returns are less about cost than about not
+handing the model noise to trip over.
 
 So every tool in the suite returns a filtered, typed [pydantic](https://docs.pydantic.dev) model —
 not the source JSON. The IRS [Income model](https://github.com/mcpwright/soi-mcp) is the clearest
@@ -91,9 +94,11 @@ When you have more than one server, the temptation is to standardize the data la
 standardize the *interface*, not the plumbing. The right strategy falls directly out of asking one
 question about the source: **is this data living or static, large or small?**
 
-EDGAR is a huge, constantly-changing corpus. You can't download it; you wouldn't want a stale copy
-anyway. So it makes live per-request calls, fronted by an in-memory TTL cache with a byte budget and
-LRU eviction — fast on repeat access, never stale for long, bounded in memory.
+EDGAR is a huge, constantly-changing corpus. The SEC does publish bulk dumps, but mirroring them and
+keeping a local copy fresh enough for interactive use is its own project — and a stale mirror is
+worse than no mirror when someone's asking about a filing from this morning. So it makes live
+per-request calls, fronted by an in-memory TTL cache with a byte budget and LRU eviction — fast on
+repeat access, never stale for long, bounded in memory.
 
 Census and IRS data are the opposite: small, static, published once a year. For those, the live-API
 model is the wrong shape entirely. They bulk-download once into a local SQLite store, and after that
@@ -111,10 +116,13 @@ nothing in duplicated code.)
 Every tool in the suite is marked `readOnlyHint`. This is a small thing that buys a large thing.
 
 An honest read-only annotation lets a client — or an agent driving the tools autonomously — reason
-about what's safe. Safe to call without asking the user first. Safe to retry on a timeout. Safe to
-run several in parallel. A surface that's truthfully read-only can be driven *harder* and with less
-human babysitting than one where every call might mutate something. The annotation isn't a compliance
-checkbox; it's a capability you're granting the agent.
+about what's safe: safe to call without asking the user first, safe to retry on a timeout, safe to
+run several in parallel. I'll be straight that client support for these hints is still uneven in
+mid-2026 — plenty of clients ignore them — so part of this is a bet on where the ecosystem is going.
+But it's a cheap bet and the direction is clear: a surface that's truthfully read-only can be driven
+*harder*, and with less human babysitting, than one where any call might mutate something. The
+annotation isn't a compliance checkbox; it's a capability you're granting the agent — as clients
+learn to honor it.
 
 The corollary is to actually earn the annotation. There's a real honesty question with the
 store-backed servers: they read from a local SQLite file, but the *first* run downloads it. They stay
@@ -143,11 +151,66 @@ The fewer steps between install and first useful answer, the more the tool actua
 true for any software, but it bites harder here, because there's a model on the other side waiting to
 do useful work the instant the human gets out of the way.
 
+## A measurement, and an admission
+
+I should be honest about which of these I can prove and which are still arguments.
+
+The one I can put a number on is the lean-returns claim, because it doesn't need a model in the loop
+— just a byte count. Ask EDGAR for one company's recent filings. The raw SEC submissions feed for
+Apple is ~180 KB of JSON, about **45,000 tokens** — a thousand filings flattened into sixteen
+parallel arrays, wrapped in two dozen company-metadata fields nobody asked for. The lean tool returns
+the top 20 filings as six fields each: roughly **1,100 tokens**. Same question, ~**40× less context**,
+and every one of those 1,100 tokens is signal. (Reproduce it yourself: `curl` the submissions
+endpoint with a `User-Agent`, count the bytes; the tool's default `limit` is 20.) Multiply that
+across a multi-step research session and the difference is the model staying coherent versus drowning.
+
+The claims I *can't* yet hand you a number for are the behavioral ones — that few orthogonal tools
+improve tool-selection accuracy, and that honest caveats in descriptions reduce confident-wrong
+answers. Those need a real eval: a fixed task set, the suite wired to a model, run many times with and
+without the change — the same questions against a 30-tool variant vs. the 11-tool one, or with the
+ZCTA and top-coding caveats stripped out of the descriptions — scoring tool choice and answer
+correctness. I'm building that harness, and I'll publish what it finds, including the results that
+*don't* flatter the principle. Until then, treat sections 1, 3 and 5 as well-motivated arguments, not
+measured facts. An essay that hands you a design rule it hasn't measured owes you that distinction.
+
+## The tensions I'm trading off
+
+Three of these pull against each other, and pretending they don't would undercut the point.
+
+**Lean returns (2) vs. honest descriptions (3).** One says strip every non-essential token from what
+a tool returns; the other says spend tokens describing caveats — on every tool, in the prompt, every
+turn. Both can't be the top priority. The line I draw: returns scale with the data (a thousand
+filings), so trimming them pays off on every call; descriptions are fixed overhead paid once, so a few
+extra sentences that head off a class of wrong answers are cheap. But that's a judgment call, not a
+law — on a server with a hundred tools, the description budget becomes the binding constraint and the
+math flips.
+
+**Few tools (1) vs. discoverability.** Collapsing a tool family behind one parameter (`form=C|D|A`)
+can go too far. Overload enough behavior into a single tool and the parameter *combinations* become
+their own haystack, with a polymorphic return the model has to case-split on. "Merge tools that differ
+only by a parameter" is a heuristic, not a target; two clear tools sometimes beat one clever one.
+
+**Curated returns vs. the questions you didn't anticipate.** Trimming SOI to AGI bands and the mean
+buys efficiency at the cost of the model's ability to answer something I didn't foresee. Every field I
+drop is a question I've quietly decided isn't worth asking. That's a real product opinion baked into
+infrastructure, and it's worth staying a little uneasy about.
+
+## What this doesn't cover
+
+A caveat on the title. All three servers are read-only, single-call, public-data lookups — the
+gentlest tools there are. The principles above are validated against that case and no harder one. They
+say nothing about the genuinely difficult parts of tool design: mutating tools and how to annotate and
+gate them; stateful or multi-step flows; paginating result sets too large for any context; long-running
+operations; surfacing rate limits and partial failures so the model can recover; auth. A good *write*
+surface is a harder essay than this one, and I haven't earned it yet. Read the above as "what makes a
+good read-only data-lookup tool surface" — which is most of what's on the MCP registry today, but not
+all of what will matter.
+
 ## The one rule underneath all of these
 
 Step back and every principle above is the same discipline applied at a different layer:
 
-**Treat the model as the user, and the context window as the budget.**
+**Treat the model as the user, and its attention — not just its context window — as the budget.**
 
 Few orthogonal tools — don't make the user choose from a haystack. Lean typed returns — don't spend
 the budget on noise. Descriptions as API — the user only knows what you tell them. Data-shaped
