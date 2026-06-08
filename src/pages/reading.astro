@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import books from '../data/reading.json';
+
+const GOODREADS = 'https://www.goodreads.com/user/show/30218868-devender-gollapally';
+
+// Group the (already most-recent-first) list by the year I read each book.
+const byYear: { year: number | null; books: typeof books }[] = [];
+for (const book of books) {
+  const last = byYear[byYear.length - 1];
+  if (!last || last.year !== book.year) byYear.push({ year: book.year, books: [book] });
+  else last.books.push(book);
+}
+
+const stars = (n: number) => '★★★★★☆☆☆☆☆'.slice(5 - n, 10 - n);
+const total = books.length;
+---
+<Base
+  title="Reading — Devender Gollapally"
+  description="Books I've read — a live view of my Goodreads shelf. Mostly AI, systems, finance, history, and the odd novel."
+>
+  <div class="hero" style="padding-bottom: 12px;">
+    <p class="kicker">Reading</p>
+    <h1>What I've been reading.</h1>
+    <p class="lede">
+      {total} books and counting — pulled from <a href={GOODREADS}>my Goodreads shelf</a> and
+      rebuilt here. Mostly AI, systems, finance, and history, with the odd novel slipping in.
+    </p>
+  </div>
+
+  {byYear.map(({ year, books }) => (
+    <section>
+      <p class="year-head">{year ?? 'Earlier'}</p>
+      <ul class="book-grid">
+        {books.map((b) => (
+          <li class="book">
+            <a href={b.link} title={`${b.title} — ${b.author}`}>
+              {b.cover ? (
+                <img class="cover" src={b.cover} alt={`Cover of ${b.title}`} loading="lazy" />
+              ) : (
+                <span class="cover cover--blank">{b.title}</span>
+              )}
+              <span class="book-title">{b.title}</span>
+              <span class="book-author">{b.author}</span>
+              {b.rating > 0 && (
+                <span class="stars" aria-label={`${b.rating} out of 5`}>{stars(b.rating)}</span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <p class="muted" style="font-size: 14px; padding-bottom: 24px;">
+    Ratings and shelves live on <a href={GOODREADS}>Goodreads</a>; this page is a static
+    snapshot rebuilt from that feed.
+  </p>
+</Base>

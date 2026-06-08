@@ -3,6 +3,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Weekly rebuild so the /reading page picks up newly-finished books from Goodreads
+  # even when nothing was pushed. Mondays 12:00 UTC.
+  schedule:
+    - cron: '0 12 * * 1'
 permissions:
   contents: read
   pages: write
