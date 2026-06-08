@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "reading": "node scripts/fetch-reading.mjs",
+    "build": "node scripts/fetch-reading.mjs && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
