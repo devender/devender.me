@@ -79,4 +79,9 @@ The trick isn't to think harder. It's to take the breath before you don't.
 
 ---
 
-> *For anyone who wants the real texts rather than my borrowing of them:* the line and the argument are from Seneca's *On the Shortness of Life* (*De Brevitate Vitae*, ~49 AD) — worth reading for the "preoccupied man" passages, which are not the leisure-as-relaxation thing the famous quote gets flattened into. Marcus Aurelius's *Meditations* is full of the move on impressions — *"say to every harsh impression, you are just an impression, and not at all the thing you claim to be."* Epictetus, in the *Discourses*, gives the pause-before-assent its sharpest form. And the modern echo — "between stimulus and response there is a space, and in that space is our power to choose our response" — is usually attributed to Viktor Frankl; the exact sourcing is debated, but the idea is the whole game.
+> *For anyone who wants the real texts rather than my borrowing of them:*
+>
+> - **Seneca, *On the Shortness of Life* (*De Brevitate Vitae*, ~49 AD)** — the line and the argument. Worth reading for the "preoccupied man" passages, which are not the leisure-as-relaxation thing the famous quote gets flattened into.
+> - **Marcus Aurelius, *Meditations*** — full of the move on impressions: *"say to every harsh impression, you are just an impression, and not at all the thing you claim to be."*
+> - **Epictetus, *Discourses*** — gives the pause-before-assent its sharpest form.
+> - **Viktor Frankl (attributed)** — the modern echo: "between stimulus and response there is a space, and in that space is our power to choose our response." The exact sourcing is debated, but the idea is the whole game.
