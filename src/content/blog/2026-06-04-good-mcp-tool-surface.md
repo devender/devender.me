@@ -199,6 +199,12 @@ measured yet; it needs tool execution and answer grading, not just selection. Un
 a well-motivated argument. And take the section above as the standing promise of this whole essay: I'll
 measure the rules I hand you, and say so plainly when the numbers don't cooperate.
 
+**Update (June 10):** measured. A top-code caveat in the description took Haiku 4.5 from flagging a
+capped value 0% of the time to 100%, and Sonnet 4.6 from 80% to 100% — the full writeup is
+[here](/2026/06/10/tool-descriptions-measured/). The short version: tool *selection* is robust to
+surface design, but tool-result *interpretation* leans hard on the description's caveats, most of all
+where the model has no priors to fall back on.
+
 ## The tensions I'm trading off
 
 Three of these pull against each other, and pretending they don't would undercut the point.
