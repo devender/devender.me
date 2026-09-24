@@ -137,7 +137,7 @@ network. It gets answers from the gateway, and nothing else.
   <text x="540" y="384" font-size="12.5" style="fill:#f85149">no data</text>
   <text x="26" y="189" font-size="12" letter-spacing="1" style="fill:var(--muted);font-family:var(--mono)">OUR PUBLIC EDGE</text>
   <rect x="10" y="470" width="700" height="240" rx="10" style="fill:none;stroke:var(--border);stroke-dasharray:6 4"/>
-  <text x="26" y="494" font-size="12" letter-spacing="1" style="fill:var(--muted);font-family:var(--mono)">PRIVATE NETWORK · NO INTERNET PATH</text>
+  <text x="26" y="701" font-size="12" letter-spacing="1" style="fill:var(--muted);font-family:var(--mono)">PRIVATE NETWORK · NO INTERNET PATH</text>
   <rect x="30" y="560" width="200" height="110" rx="8" style="fill:var(--panel);stroke:#d29922;stroke-width:1.6"/>
   <text x="46" y="588" font-size="15" font-weight="600" style="fill:var(--text)">Audit archive</text>
   <text x="46" y="610" font-size="12.5" style="fill:var(--muted)">WORM: no one can edit it</text>
