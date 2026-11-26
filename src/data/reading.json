@@ -1,5 +1,82 @@
 [
   {
+    "id": "222615930",
+    "title": "Enshittification: Why Everything Suddenly Got Worse and What to Do About It",
+    "author": "Cory Doctorow",
+    "link": "https://www.goodreads.com/review/show/8846128416",
+    "rating": 3,
+    "readAt": "2026-08-27T00:00:00.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/222615930.jpg"
+  },
+  {
+    "id": "222725518",
+    "title": "Empire of AI: Dreams and Nightmares in Sam Altman's OpenAI",
+    "author": "Karen Hao",
+    "link": "https://www.goodreads.com/review/show/8739734587",
+    "rating": 4,
+    "readAt": "2026-07-21T00:00:00.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/222725518.jpg"
+  },
+  {
+    "id": "228578720",
+    "title": "Careless People: A Cautionary Tale of Power, Greed, and Lost Idealism",
+    "author": "Sarah Wynn-Williams",
+    "link": "https://www.goodreads.com/review/show/8751866479",
+    "rating": 5,
+    "readAt": "2026-07-18T00:00:00.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/228578720.jpg"
+  },
+  {
+    "id": "21940560",
+    "title": "Burning Chrome: Brilliant Cyberpunk Science Fiction Short Stories by Master Author William Gibson",
+    "author": "William Gibson",
+    "link": "https://www.goodreads.com/review/show/8735022550",
+    "rating": 2,
+    "readAt": "2026-07-02T00:00:00.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/21940560.jpg"
+  },
+  {
+    "id": "91206641",
+    "title": "Daleks: The Ultimate Comic Strip Collection",
+    "author": "Dez Skinn",
+    "link": "https://www.goodreads.com/review/show/8706486250",
+    "rating": 0,
+    "readAt": "2026-06-22T07:22:07.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/91206641.jpg"
+  },
+  {
+    "id": "32998876",
+    "title": "101 Essays That Will Change The Way You Think",
+    "author": "Brianna Wiest",
+    "link": "https://www.goodreads.com/review/show/8399638256",
+    "rating": 4,
+    "readAt": "2026-06-09T00:00:00.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/32998876.jpg"
+  },
+  {
+    "id": "248283419",
+    "title": "The Scaling Curve: Dario Amodei, Anthropic, and the Race to Build and Survive Superintelligence",
+    "author": "Claude St. John",
+    "link": "https://www.goodreads.com/review/show/8606702051",
+    "rating": 4,
+    "readAt": "2026-06-08T00:00:00.000Z",
+    "year": 2026,
+    "review": "",
+    "cover": "/media/books/248283419.jpg"
+  },
+  {
     "id": "241592462",
     "title": "The Infinity Machine: Demis Hassabis, DeepMind, and the Quest for Superintelligence",
     "author": "Sebastian Mallaby",
@@ -364,7 +441,7 @@
   },
   {
     "id": "60165730",
-    "title": "The Rāmāyaṇa of Vālmīki: The Complete English Translation (Princeton Library of Asian Translations)",
+    "title": "The Rāmāyaṇa of Vālmīki: The Complete English Translation",
     "author": "Vālmīki",
     "link": "https://www.goodreads.com/review/show/6056035194",
     "rating": 5,
@@ -618,7 +695,7 @@
   {
     "id": "45416671",
     "title": "A Short History of Nearly Everything",
-    "author": "Bill Bryson",
+    "author": "Bill  Bryson",
     "link": "https://www.goodreads.com/review/show/3153007457",
     "rating": 4,
     "readAt": "2023-01-07T00:00:00.000Z",
@@ -936,7 +1013,7 @@
   },
   {
     "id": "3980",
-    "title": "From the Mixed-Up Files of Mrs. Basil E. Frankweiler",
+    "title": "From the Mixed-up Files of Mrs. Basil E. Frankweiler",
     "author": "E.L. Konigsburg",
     "link": "https://www.goodreads.com/review/show/4032042942",
     "rating": 0,
@@ -1101,7 +1178,7 @@
   },
   {
     "id": "242299",
-    "title": "The Relaxation Response",
+    "title": "The Relaxation Response: Dr. Herbert Benson's Harvard-tested mind/body technique to ease stress, anxiety, and high blood pressure in just ten minutes a day",
     "author": "Herbert Benson",
     "link": "https://www.goodreads.com/review/show/3208156069",
     "rating": 5,
@@ -2982,7 +3059,7 @@
   },
   {
     "id": "84985",
-    "title": "Agile Software Development, Principles, Patterns, and Practices",
+    "title": "Agile Software Development, Principles, Patterns, and Practices (Alan Apt Series)",
     "author": "Robert C. Martin",
     "link": "https://www.goodreads.com/review/show/899407398",
     "rating": 3,
